@@ -31,16 +31,16 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-/* ── Import Helvetica-like Google font ── */
+/* ── Typography — Swiss Grotesk ── */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-/* ── Reset & Global ── */
 html, body, [class*="css"] {
     font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
 }
 
+/* ── Global — pure white canvas ── */
 .stApp {
-    background: linear-gradient(165deg, #FAFAFA 0%, #F0F0F0 100%);
+    background: #FFFFFF;
 }
 
 /* ── Remove Streamlit branding ── */
@@ -48,151 +48,117 @@ html, body, [class*="css"] {
 footer {visibility: hidden;}
 header {visibility: hidden;}
 
-/* ── Hero header ── */
+/* ── Hero header — flat Swiss red bar ── */
 .hero {
-    background: linear-gradient(135deg, #D50000 0%, #FF1744 40%, #FF5252 100%);
-    padding: 2.5rem 3rem;
-    border-radius: 20px;
+    background: #FF0000;
+    padding: 2.8rem 3rem;
+    border-radius: 24px;
     margin-bottom: 2rem;
-    box-shadow: 0 8px 32px rgba(213, 0, 0, 0.25);
     position: relative;
-    overflow: hidden;
-}
-.hero::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -20%;
-    width: 60%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
-    pointer-events: none;
 }
 .hero h1 {
     color: #FFFFFF;
-    font-size: 2.6rem;
+    font-size: 2.4rem;
     font-weight: 800;
-    margin: 0 0 0.3rem 0;
+    margin: 0 0 0.4rem 0;
     letter-spacing: -0.03em;
 }
 .hero p {
-    color: rgba(255,255,255,0.88);
-    font-size: 1.15rem;
+    color: rgba(255,255,255,0.85);
+    font-size: 1.1rem;
     font-weight: 400;
     margin: 0;
-    letter-spacing: 0.01em;
+}
+.hero .swiss-cross {
+    position: absolute;
+    top: 50%;
+    right: 2.5rem;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    opacity: 0.2;
 }
 
-/* ── Control panel ── */
-.control-panel {
-    background: #FFFFFF;
-    border-radius: 16px;
-    padding: 1.8rem 2rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-    border: 1px solid rgba(0,0,0,0.04);
-}
-
-/* ── Section titles ── */
+/* ── Section titles (red, with dotted underline) ── */
 .section-title {
-    font-size: 1.3rem;
+    font-size: 1.15rem;
     font-weight: 700;
-    color: #1A1A1A;
-    margin: 2rem 0 1rem 0;
+    color: #FF0000;
+    margin: 2.5rem 0 1rem 0;
+    padding-bottom: 0.8rem;
+    border-bottom: 2px dotted #FF0000;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+}
+
+/* ── Dotted separator ── */
+.dotted-sep {
+    border: none;
+    border-top: 2px dotted #FF0000;
+    margin: 2rem 0;
+}
+
+/* ── Stats bar ── */
+.stats-bar {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+.stat-chip {
+    background: #F2F2F2;
+    border-radius: 20px;
+    padding: 1rem 1.6rem;
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    letter-spacing: -0.01em;
+    gap: 0.8rem;
+    flex: 1;
+    min-width: 160px;
+    border: none;
 }
-
-/* ── Holiday table ── */
-.holiday-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-    margin-bottom: 1.5rem;
+.stat-chip .stat-number {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #FF0000;
+    line-height: 1;
 }
-.holiday-table thead {
-    background: linear-gradient(135deg, #D50000, #FF1744);
-}
-.holiday-table th {
-    color: #FFFFFF;
-    padding: 1rem 1.2rem;
-    text-align: left;
-    font-weight: 600;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-}
-.holiday-table td {
-    padding: 0.85rem 1.2rem;
-    color: #2C2C2C;
-    font-size: 0.95rem;
-    border-bottom: 1px solid #F0F0F0;
-}
-.holiday-table tr:last-child td {
-    border-bottom: none;
-}
-.holiday-table tbody tr {
-    background: #FFFFFF;
-    transition: background 0.15s ease;
-}
-.holiday-table tbody tr:hover {
-    background: #FFF5F5;
-}
-.holiday-table tbody tr:nth-child(even) {
-    background: #FAFAFA;
-}
-.holiday-table tbody tr:nth-child(even):hover {
-    background: #FFF5F5;
-}
-
-/* ── Weekday badges ── */
-.wd-badge {
-    display: inline-block;
-    padding: 0.2rem 0.6rem;
-    border-radius: 6px;
+.stat-chip .stat-label {
     font-size: 0.82rem;
-    font-weight: 600;
+    color: #666;
+    font-weight: 500;
+    line-height: 1.3;
 }
-.wd-badge.weekend { background: #F3E5F5; color: #7B1FA2; }
-.wd-badge.workday { background: #E3F2FD; color: #1565C0; }
 
 /* ── Recommendation cards ── */
 .rec-card {
-    background: linear-gradient(135deg, #FFFFFF 0%, #FFF8F8 100%);
-    border-left: 4px solid #D50000;
-    border-radius: 0 12px 12px 0;
-    padding: 1.2rem 1.5rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    background: #F2F2F2;
+    border-left: 4px solid #FF0000;
+    border-radius: 0 20px 20px 0;
+    padding: 1.3rem 1.6rem;
+    margin-bottom: 0.8rem;
+    transition: transform 0.15s ease;
 }
 .rec-card:hover {
     transform: translateX(4px);
-    box-shadow: 0 4px 16px rgba(213,0,0,0.12);
 }
 .rec-card .rec-title {
     font-weight: 700;
-    color: #D50000;
+    color: #FF0000;
     font-size: 1rem;
     margin-bottom: 0.3rem;
 }
 .rec-card .rec-text {
-    color: #444;
+    color: #333;
     font-size: 0.95rem;
     line-height: 1.5;
 }
 .rec-card .rec-days {
     display: inline-block;
-    background: #D50000;
+    background: #FF0000;
     color: #FFF;
-    padding: 0.15rem 0.55rem;
-    border-radius: 6px;
-    font-size: 0.78rem;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
     font-weight: 700;
     margin-left: 0.5rem;
     vertical-align: middle;
@@ -201,24 +167,23 @@ header {visibility: hidden;}
 /* ── Calendar grid ── */
 .cal-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.2rem;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
     margin-bottom: 2rem;
 }
 .cal-month {
-    background: #FFFFFF;
-    border-radius: 14px;
+    background: #F2F2F2;
+    border-radius: 20px;
     padding: 1.2rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    border: 1px solid rgba(0,0,0,0.04);
 }
 .cal-month-title {
     font-weight: 700;
-    font-size: 1rem;
-    color: #1A1A1A;
+    font-size: 0.95rem;
+    color: #000;
     text-align: center;
     margin-bottom: 0.8rem;
-    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 .cal-grid {
     display: grid;
@@ -227,7 +192,7 @@ header {visibility: hidden;}
 }
 .cal-header {
     text-align: center;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 700;
     color: #999;
     padding: 0.3rem 0;
@@ -236,37 +201,38 @@ header {visibility: hidden;}
 .cal-day {
     text-align: center;
     padding: 0.35rem 0.1rem;
-    border-radius: 8px;
+    border-radius: 50%;
     font-size: 0.82rem;
     font-weight: 500;
     color: #333;
-    transition: transform 0.1s ease;
+    transition: transform 0.12s ease;
     position: relative;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .cal-day.empty { visibility: hidden; }
 .cal-day.weekend {
-    color: #999;
-    background: #F5F5F5;
+    color: #AAA;
 }
 .cal-day.holiday {
-    background: linear-gradient(135deg, #D50000, #FF1744);
+    background: #FF0000;
     color: #FFFFFF;
     font-weight: 700;
-    box-shadow: 0 2px 6px rgba(213,0,0,0.3);
 }
 .cal-day.bridge {
-    background: linear-gradient(135deg, #FF6D00, #FF9100);
+    background: #000000;
     color: #FFFFFF;
     font-weight: 700;
-    box-shadow: 0 2px 6px rgba(255,109,0,0.3);
 }
 .cal-day.today {
-    outline: 2px solid #D50000;
+    outline: 2px solid #FF0000;
     outline-offset: -1px;
 }
 .cal-day.holiday:hover,
 .cal-day.bridge:hover {
-    transform: scale(1.25);
+    transform: scale(1.3);
     z-index: 10;
     cursor: pointer;
 }
@@ -281,15 +247,14 @@ header {visibility: hidden;}
     bottom: calc(100% + 6px);
     left: 50%;
     transform: translateX(-50%);
-    background: #1A1A1A;
+    background: #000;
     color: #FFF;
-    padding: 0.35rem 0.65rem;
-    border-radius: 6px;
-    font-size: 0.72rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
     font-weight: 600;
     white-space: nowrap;
     pointer-events: none;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.2);
     z-index: 100;
     animation: fadeIn 0.15s ease;
 }
@@ -300,7 +265,7 @@ header {visibility: hidden;}
     left: 50%;
     transform: translateX(-50%);
     border: 5px solid transparent;
-    border-top-color: #1A1A1A;
+    border-top-color: #000;
     pointer-events: none;
     z-index: 100;
 }
@@ -315,92 +280,125 @@ header {visibility: hidden;}
     gap: 1.5rem;
     flex-wrap: wrap;
     margin-bottom: 1.5rem;
-    padding: 1rem 1.5rem;
-    background: #FFFFFF;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    padding: 0.8rem 1.2rem;
+    background: #F2F2F2;
+    border-radius: 999px;
 }
 .legend-item {
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: #555;
     font-weight: 500;
 }
 .legend-dot {
-    width: 14px;
-    height: 14px;
-    border-radius: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
 }
-.legend-dot.holiday-dot { background: linear-gradient(135deg, #D50000, #FF1744); }
-.legend-dot.bridge-dot  { background: linear-gradient(135deg, #FF6D00, #FF9100); }
-.legend-dot.weekend-dot { background: #F5F5F5; border: 1px solid #DDD; }
-.legend-dot.today-dot   { background: #FFFFFF; border: 2px solid #D50000; }
+.legend-dot.holiday-dot { background: #FF0000; }
+.legend-dot.bridge-dot  { background: #000000; }
+.legend-dot.weekend-dot { background: #DDD; }
+.legend-dot.today-dot   { background: #FFF; border: 2px solid #FF0000; }
 
-/* ── Stats bar ── */
-.stats-bar {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+/* ── Holiday table ── */
+.holiday-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 20px;
+    overflow: hidden;
     margin-bottom: 1.5rem;
 }
-.stat-chip {
-    background: #FFFFFF;
-    border-radius: 12px;
-    padding: 0.9rem 1.4rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    flex: 1;
-    min-width: 160px;
-    border: 1px solid rgba(0,0,0,0.04);
+.holiday-table thead {
+    background: #FF0000;
 }
-.stat-chip .stat-number {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #D50000;
-    line-height: 1;
-}
-.stat-chip .stat-label {
+.holiday-table th {
+    color: #FFFFFF;
+    padding: 1rem 1.2rem;
+    text-align: left;
+    font-weight: 600;
     font-size: 0.82rem;
-    color: #777;
-    font-weight: 500;
-    line-height: 1.3;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+.holiday-table td {
+    padding: 0.85rem 1.2rem;
+    color: #222;
+    font-size: 0.95rem;
+    border-bottom: 1px dotted #DDD;
+}
+.holiday-table tr:last-child td {
+    border-bottom: none;
+}
+.holiday-table tbody tr {
+    background: #FFFFFF;
+    transition: background 0.12s ease;
+}
+.holiday-table tbody tr:hover {
+    background: #FFF5F5;
+}
+.holiday-table tbody tr:nth-child(even) {
+    background: #F9F9F9;
+}
+.holiday-table tbody tr:nth-child(even):hover {
+    background: #FFF5F5;
 }
 
-/* ── Download button override ── */
+/* ── Weekday badges (pill shape) ── */
+.wd-badge {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+.wd-badge.weekend { background: #F2F2F2; color: #888; }
+.wd-badge.workday { background: #E8F5E9; color: #2E7D32; }
+
+/* ── Download/Primary button — pill shape ── */
 .stDownloadButton button {
-    background: linear-gradient(135deg, #D50000, #FF1744) !important;
+    background: #FF0000 !important;
     color: #FFF !important;
     border: none !important;
-    border-radius: 10px !important;
-    padding: 0.7rem 2rem !important;
-    font-weight: 600 !important;
+    border-radius: 999px !important;
+    padding: 0.75rem 2.5rem !important;
+    font-weight: 700 !important;
     font-size: 1rem !important;
-    transition: transform 0.15s ease, box-shadow 0.15s ease !important;
-    box-shadow: 0 4px 16px rgba(213,0,0,0.25) !important;
+    transition: transform 0.15s ease, opacity 0.15s ease !important;
+    letter-spacing: 0.02em !important;
 }
 .stDownloadButton button:hover {
     transform: translateY(-2px) !important;
-    box-shadow: 0 6px 24px rgba(213,0,0,0.35) !important;
+    opacity: 0.9 !important;
 }
 
-/* ── Primary button override ── */
 .stButton > button[kind="primary"], .stButton > button {
-    background: linear-gradient(135deg, #D50000, #FF1744) !important;
+    background: #FF0000 !important;
     color: #FFF !important;
     border: none !important;
-    border-radius: 10px !important;
-    padding: 0.6rem 2rem !important;
-    font-weight: 600 !important;
-    transition: transform 0.15s ease, box-shadow 0.15s ease !important;
-    box-shadow: 0 4px 16px rgba(213,0,0,0.2) !important;
+    border-radius: 999px !important;
+    padding: 0.65rem 2rem !important;
+    font-weight: 700 !important;
+    transition: transform 0.15s ease, opacity 0.15s ease !important;
 }
 .stButton > button:hover {
     transform: translateY(-2px) !important;
-    box-shadow: 0 6px 24px rgba(213,0,0,0.35) !important;
+    opacity: 0.9 !important;
+}
+
+/* ── Streamlit selectbox / number input override ── */
+.stSelectbox > div > div,
+.stNumberInput > div > div > input {
+    border-radius: 999px !important;
+    border: 2px solid #E0E0E0 !important;
+    padding-left: 1rem !important;
+}
+.stSelectbox > div > div:focus-within,
+.stNumberInput > div > div > input:focus {
+    border-color: #FF0000 !important;
+    box-shadow: 0 0 0 1px #FF0000 !important;
 }
 
 /* ── Empty state ── */
@@ -408,7 +406,9 @@ header {visibility: hidden;}
     text-align: center;
     padding: 3rem 2rem;
     color: #999;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
+    background: #F2F2F2;
+    border-radius: 20px;
 }
 .empty-state .empty-icon {
     font-size: 3rem;
@@ -419,82 +419,60 @@ header {visibility: hidden;}
 .app-footer {
     text-align: center;
     padding: 2rem;
-    color: #AAA;
-    font-size: 0.82rem;
+    color: #999;
+    font-size: 0.8rem;
     margin-top: 2rem;
-    border-top: 1px solid #EEE;
+    border-top: 2px dotted #FF0000;
 }
 
 /* ── Mobile Responsive ── */
 @media (max-width: 768px) {
     .hero {
         padding: 1.5rem 1.2rem;
-        border-radius: 14px;
+        border-radius: 16px;
         margin-bottom: 1.2rem;
     }
-    .hero h1 {
-        font-size: 1.6rem;
-    }
-    .hero p {
-        font-size: 0.95rem;
-    }
+    .hero h1 { font-size: 1.5rem; }
+    .hero p { font-size: 0.92rem; }
+    .hero .swiss-cross { display: none; }
 
-    .stats-bar {
-        gap: 0.6rem;
-    }
+    .stats-bar { gap: 0.6rem; }
     .stat-chip {
         min-width: 0;
         flex: 1 1 45%;
-        padding: 0.7rem 0.9rem;
+        padding: 0.7rem 1rem;
+        border-radius: 14px;
     }
-    .stat-chip .stat-number {
-        font-size: 1.4rem;
-    }
-    .stat-chip .stat-label {
-        font-size: 0.75rem;
-    }
+    .stat-chip .stat-number { font-size: 1.4rem; }
+    .stat-chip .stat-label { font-size: 0.72rem; }
 
     .cal-container {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 0.7rem;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 0.6rem;
     }
     .cal-month {
         padding: 0.8rem 0.5rem;
-        border-radius: 10px;
+        border-radius: 14px;
     }
-    .cal-month-title {
-        font-size: 0.88rem;
-    }
+    .cal-month-title { font-size: 0.82rem; }
     .cal-day {
-        padding: 0.25rem 0;
-        font-size: 0.72rem;
-        border-radius: 6px;
+        font-size: 0.7rem;
+        border-radius: 50%;
     }
-    .cal-header {
-        font-size: 0.6rem;
-    }
+    .cal-header { font-size: 0.58rem; }
 
-    .rec-card {
-        padding: 1rem 1.1rem;
-    }
-    .rec-card .rec-title {
-        font-size: 0.9rem;
-    }
-    .rec-card .rec-text {
-        font-size: 0.85rem;
-    }
+    .rec-card { padding: 1rem; border-radius: 0 14px 14px 0; }
+    .rec-card .rec-title { font-size: 0.88rem; }
+    .rec-card .rec-text { font-size: 0.82rem; }
 
     .legend {
-        gap: 0.8rem;
-        padding: 0.8rem 1rem;
+        gap: 0.6rem;
+        padding: 0.6rem 0.8rem;
+        border-radius: 14px;
     }
-    .legend-item {
-        font-size: 0.78rem;
-    }
+    .legend-item { font-size: 0.72rem; }
 
-    .section-title {
-        font-size: 1.1rem;
-    }
+    .section-title { font-size: 1rem; }
 }
 </style>
 """, unsafe_allow_html=True)
@@ -642,8 +620,12 @@ def main():
     # ── Hero ──
     st.markdown("""
     <div class="hero">
-        <h1>🇨🇭 SwissHolidayOptimizer</h1>
+        <h1>SwissHolidayOptimizer</h1>
         <p>Maximiere deine freien Tage — finde die besten Brückentage für deinen Kanton.</p>
+        <svg class="swiss-cross" viewBox="0 0 32 32" fill="white">
+            <rect x="13" y="6" width="6" height="20"/>
+            <rect x="6" y="13" width="20" height="6"/>
+        </svg>
     </div>
     """, unsafe_allow_html=True)
 
@@ -672,7 +654,7 @@ def main():
 
     with col3:
         st.markdown("<br>", unsafe_allow_html=True)
-        calculate = st.button("🔍 Optimierung berechnen", use_container_width=True)
+        calculate = st.button("Berechnen", use_container_width=True)
 
     # ── Calculate (auto-trigger or on button) ──
     if calculate or "last_canton" not in st.session_state:
@@ -721,7 +703,7 @@ def main():
     """, unsafe_allow_html=True)
 
     # ── Calendar View ──
-    st.markdown('<div class="section-title">📅 Jahreskalender</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">Jahreskalender</div>', unsafe_allow_html=True)
 
     # Legend
     st.markdown("""
@@ -737,7 +719,7 @@ def main():
     st.markdown(cal_html, unsafe_allow_html=True)
 
     # ── Bridge Day Recommendations ──
-    st.markdown('<div class="section-title">💡 Brückentag-Empfehlungen</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">Brückentag-Empfehlungen</div>', unsafe_allow_html=True)
 
     if recommendations:
         for rec in recommendations:
@@ -752,12 +734,12 @@ def main():
             """, unsafe_allow_html=True)
 
         # ── iCal Export ──
-        st.markdown('<div class="section-title">📤 Kalender-Export</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Kalender-Export</div>', unsafe_allow_html=True)
 
         ical_data = generate_ical(recommendations, canton, int(year))
         ical_bytes = ical_data.encode("utf-8")
         st.download_button(
-            label="📅 In Kalender exportieren (.ics)",
+            label="In Kalender exportieren (.ics)",
             data=ical_bytes,
             file_name=f"brueckentage_{canton}_{int(year)}.ics",
             mime="text/calendar",
@@ -774,7 +756,7 @@ def main():
         """, unsafe_allow_html=True)
 
     # ── Holiday Table ──
-    st.markdown('<div class="section-title">📋 Alle Feiertage</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">Alle Feiertage</div>', unsafe_allow_html=True)
 
     weekend_class = lambda wd: "weekend" if wd in ("Samstag", "Sonntag") else "workday"
 
@@ -792,18 +774,18 @@ def main():
         '<html><head><style>'
         '@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");'
         'body{margin:0;padding:0;font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;background:transparent;}'
-        '.holiday-table{width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.05);}'
-        '.holiday-table thead{background:linear-gradient(135deg,#D50000,#FF1744);}'
-        '.holiday-table th{color:#FFF;padding:1rem 1.2rem;text-align:left;font-weight:600;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.06em;}'
-        '.holiday-table td{padding:0.85rem 1.2rem;color:#2C2C2C;font-size:0.95rem;border-bottom:1px solid #F0F0F0;}'
+        '.holiday-table{width:100%;border-collapse:separate;border-spacing:0;border-radius:20px;overflow:hidden;}'
+        '.holiday-table thead{background:#FF0000;}'
+        '.holiday-table th{color:#FFF;padding:1rem 1.2rem;text-align:left;font-weight:600;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;}'
+        '.holiday-table td{padding:0.85rem 1.2rem;color:#222;font-size:0.95rem;border-bottom:1px dotted #DDD;}'
         '.holiday-table tr:last-child td{border-bottom:none;}'
-        '.holiday-table tbody tr{background:#FFF;transition:background 0.15s ease;}'
+        '.holiday-table tbody tr{background:#FFF;transition:background 0.12s ease;}'
         '.holiday-table tbody tr:hover{background:#FFF5F5;}'
-        '.holiday-table tbody tr:nth-child(even){background:#FAFAFA;}'
+        '.holiday-table tbody tr:nth-child(even){background:#F9F9F9;}'
         '.holiday-table tbody tr:nth-child(even):hover{background:#FFF5F5;}'
-        '.wd-badge{display:inline-block;padding:0.2rem 0.6rem;border-radius:6px;font-size:0.82rem;font-weight:600;}'
-        '.wd-badge.weekend{background:#F3E5F5;color:#7B1FA2;}'
-        '.wd-badge.workday{background:#E3F2FD;color:#1565C0;}'
+        '.wd-badge{display:inline-block;padding:0.2rem 0.7rem;border-radius:999px;font-size:0.8rem;font-weight:600;}'
+        '.wd-badge.weekend{background:#F2F2F2;color:#888;}'
+        '.wd-badge.workday{background:#E8F5E9;color:#2E7D32;}'
         '</style></head><body>'
         '<table class="holiday-table">'
         '<thead><tr><th>Feiertag</th><th>Datum</th><th>Wochentag</th></tr></thead>'
