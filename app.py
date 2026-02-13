@@ -174,7 +174,7 @@ header {visibility: hidden;}
 .cal-month {
     background: #F2F2F2;
     border-radius: 20px;
-    padding: 1.2rem;
+    padding: 1.2rem 1.6rem;
 }
 .cal-month-title {
     font-weight: 700;
@@ -232,7 +232,7 @@ header {visibility: hidden;}
 }
 .cal-day.holiday:hover,
 .cal-day.bridge:hover {
-    transform: scale(1.3);
+    transform: scale(1.2);
     z-index: 10;
     cursor: pointer;
 }
@@ -486,11 +486,11 @@ input, select, button, textarea {
     .stat-chip .stat-label { font-size: 0.72rem; }
 
     .cal-container {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        grid-template-columns: 1fr;
         gap: 0.6rem;
     }
     .cal-month {
-        padding: 0.8rem 0.5rem;
+        padding: 1rem 1.2rem;
         border-radius: 14px;
     }
     .cal-month-title { font-size: 0.82rem; }
@@ -525,6 +525,18 @@ input, select, button, textarea {
         min-height: 44px !important;
         padding: 0.55rem 1.5rem !important;
     }
+
+    /* ── Mobile section reorder: calendar goes to bottom ── */
+    [data-testid="stVerticalBlock"]:has(.calendar-section) {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    [data-testid="element-container"]:has(.calendar-section) {
+        order: 90 !important;
+    }
+    [data-testid="element-container"]:has(.app-footer) {
+        order: 100 !important;
+    }
 }
 
 /* ── Phone breakpoint (≤ 480px) ── */
@@ -549,13 +561,13 @@ input, select, button, textarea {
     .stat-chip .stat-number { font-size: 1.2rem; }
     .stat-chip .stat-label { font-size: 0.65rem; }
 
-    /* Calendar → 2 columns on phone for readability */
+    /* Calendar → single column on phone */
     .cal-container {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
         gap: 0.5rem;
     }
     .cal-month {
-        padding: 0.6rem 0.4rem;
+        padding: 0.8rem 1rem;
         border-radius: 12px;
     }
     .cal-month-title { font-size: 0.75rem; }
@@ -867,21 +879,20 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-    # ── Calendar View ──
-    st.markdown('<div class="section-title">Jahreskalender</div>', unsafe_allow_html=True)
-
-    # Legend
-    st.markdown("""
-    <div class="legend">
-        <div class="legend-item"><div class="legend-dot holiday-dot"></div> Feiertag</div>
-        <div class="legend-item"><div class="legend-dot bridge-dot"></div> Brückentag</div>
-        <div class="legend-item"><div class="legend-dot weekend-dot"></div> Wochenende</div>
-        <div class="legend-item"><div class="legend-dot today-dot"></div> Heute</div>
+    # ── Calendar View (wrapped in single div for mobile reorder) ──
+    cal_html = render_calendar_html(int(year), holiday_dates, bridge_dates, holiday_names, bridge_names)
+    st.markdown(f"""
+    <div class="calendar-section">
+        <div class="section-title">Jahreskalender</div>
+        <div class="legend">
+            <div class="legend-item"><div class="legend-dot holiday-dot"></div> Feiertag</div>
+            <div class="legend-item"><div class="legend-dot bridge-dot"></div> Brückentag</div>
+            <div class="legend-item"><div class="legend-dot weekend-dot"></div> Wochenende</div>
+            <div class="legend-item"><div class="legend-dot today-dot"></div> Heute</div>
+        </div>
+        {cal_html}
     </div>
     """, unsafe_allow_html=True)
-
-    cal_html = render_calendar_html(int(year), holiday_dates, bridge_dates, holiday_names, bridge_names)
-    st.markdown(cal_html, unsafe_allow_html=True)
 
     # ── Bridge Day Recommendations ──
     st.markdown('<div class="section-title">Brückentag-Empfehlungen</div>', unsafe_allow_html=True)
