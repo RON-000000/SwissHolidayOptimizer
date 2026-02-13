@@ -425,25 +425,64 @@ header {visibility: hidden;}
     border-top: 2px dotted #FF0000;
 }
 
-/* ── Mobile Responsive ── */
+/* ── Safari / iOS global fixes ── */
+html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+body {
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent Safari zoom on input focus (must be >= 16px) */
+input, select, textarea {
+    font-size: 16px !important;
+}
+
+/* Safe-area padding for iPhone notch / home indicator */
+.stApp {
+    padding-left: env(safe-area-inset-left) !important;
+    padding-right: env(safe-area-inset-right) !important;
+    padding-bottom: env(safe-area-inset-bottom) !important;
+}
+
+/* Remove Safari default input styling */
+input, select, button, textarea {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* ── Tablet breakpoint (≤ 768px) ── */
 @media (max-width: 768px) {
+    /* Streamlit columns → stack vertically */
+    [data-testid="column"] {
+        width: 100% !important;
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
     .hero {
         padding: 1.5rem 1.2rem;
         border-radius: 16px;
         margin-bottom: 1.2rem;
     }
-    .hero h1 { font-size: 1.5rem; }
-    .hero p { font-size: 0.92rem; }
+    .hero h1 { font-size: 1.6rem; }
+    .hero p { font-size: 0.95rem; }
     .hero .swiss-cross { display: none; }
 
-    .stats-bar { gap: 0.6rem; }
+    .stats-bar {
+        gap: 0.5rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
     .stat-chip {
         min-width: 0;
-        flex: 1 1 45%;
-        padding: 0.7rem 1rem;
+        padding: 0.8rem 1rem;
         border-radius: 14px;
     }
-    .stat-chip .stat-number { font-size: 1.4rem; }
+    .stat-chip .stat-number { font-size: 1.5rem; }
     .stat-chip .stat-label { font-size: 0.72rem; }
 
     .cal-container {
@@ -456,23 +495,149 @@ header {visibility: hidden;}
     }
     .cal-month-title { font-size: 0.82rem; }
     .cal-day {
-        font-size: 0.7rem;
-        border-radius: 50%;
+        font-size: 0.72rem;
     }
     .cal-header { font-size: 0.58rem; }
 
-    .rec-card { padding: 1rem; border-radius: 0 14px 14px 0; }
-    .rec-card .rec-title { font-size: 0.88rem; }
-    .rec-card .rec-text { font-size: 0.82rem; }
+    .rec-card {
+        padding: 1rem 1.2rem;
+        border-radius: 0 14px 14px 0;
+    }
+    .rec-card .rec-title { font-size: 0.9rem; }
+    .rec-card .rec-text { font-size: 0.85rem; }
 
     .legend {
-        gap: 0.6rem;
-        padding: 0.6rem 0.8rem;
+        gap: 0.8rem;
+        padding: 0.6rem 1rem;
         border-radius: 14px;
     }
-    .legend-item { font-size: 0.72rem; }
-
+    .legend-item { font-size: 0.75rem; }
     .section-title { font-size: 1rem; }
+
+    /* Download button full-width */
+    .stDownloadButton button {
+        padding: 0.7rem 1.5rem !important;
+        font-size: 0.9rem !important;
+    }
+
+    /* Button touch-friendly size */
+    .stButton > button {
+        min-height: 44px !important;
+        padding: 0.55rem 1.5rem !important;
+    }
+}
+
+/* ── Phone breakpoint (≤ 480px) ── */
+@media (max-width: 480px) {
+    .hero {
+        padding: 1.2rem 1rem;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+    }
+    .hero h1 { font-size: 1.3rem; }
+    .hero p { font-size: 0.85rem; }
+
+    .stats-bar {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.4rem;
+    }
+    .stat-chip {
+        padding: 0.65rem 0.8rem;
+        border-radius: 12px;
+        gap: 0.5rem;
+    }
+    .stat-chip .stat-number { font-size: 1.2rem; }
+    .stat-chip .stat-label { font-size: 0.65rem; }
+
+    /* Calendar → 2 columns on phone for readability */
+    .cal-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+    }
+    .cal-month {
+        padding: 0.6rem 0.4rem;
+        border-radius: 12px;
+    }
+    .cal-month-title { font-size: 0.75rem; }
+    .cal-day { font-size: 0.65rem; }
+    .cal-header { font-size: 0.5rem; }
+    .cal-grid { gap: 2px; }
+
+    .rec-card {
+        padding: 0.85rem 1rem;
+        margin-bottom: 0.6rem;
+        border-radius: 0 12px 12px 0;
+    }
+    .rec-card .rec-title { font-size: 0.85rem; }
+    .rec-card .rec-text { font-size: 0.8rem; line-height: 1.4; }
+    .rec-card .rec-days {
+        font-size: 0.68rem;
+        padding: 0.15rem 0.5rem;
+    }
+
+    .legend {
+        gap: 0.5rem;
+        padding: 0.5rem 0.7rem;
+        border-radius: 12px;
+    }
+    .legend-item { font-size: 0.68rem; }
+    .legend-dot { width: 10px; height: 10px; }
+
+    .section-title {
+        font-size: 0.9rem;
+        margin: 1.8rem 0 0.8rem 0;
+        padding-bottom: 0.6rem;
+    }
+
+    .empty-state {
+        padding: 2rem 1rem;
+        font-size: 0.9rem;
+        border-radius: 12px;
+    }
+
+    .app-footer {
+        font-size: 0.7rem;
+        padding: 1.2rem 0.5rem;
+    }
+
+    /* Full-width download button on phone */
+    .stDownloadButton button {
+        width: 100% !important;
+        padding: 0.65rem 1rem !important;
+        font-size: 0.85rem !important;
+    }
+    .stButton > button {
+        width: 100% !important;
+        min-height: 48px !important;
+    }
+
+    /* Streamlit number input +/- buttons — touch-friendly */
+    .stNumberInput button {
+        min-width: 36px !important;
+        min-height: 36px !important;
+    }
+}
+
+/* ── Touch device: disable hover transforms ── */
+@media (hover: none) and (pointer: coarse) {
+    .cal-day.holiday:hover,
+    .cal-day.bridge:hover {
+        transform: none;
+    }
+    .rec-card:hover {
+        transform: none;
+    }
+    .stButton > button:hover {
+        transform: none !important;
+    }
+    .stDownloadButton button:hover {
+        transform: none !important;
+    }
+    /* Tooltip: show on tap via focus instead */
+    .cal-day[title]:hover::after,
+    .cal-day[title]:hover::before {
+        display: none;
+    }
 }
 </style>
 """, unsafe_allow_html=True)
@@ -771,9 +936,11 @@ def main():
         )
 
     table_html = (
-        '<html><head><style>'
+        '<html><head>'
+        '<meta name="viewport" content="width=device-width, initial-scale=1.0">'
+        '<style>'
         '@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");'
-        'body{margin:0;padding:0;font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;background:transparent;}'
+        'body{margin:0;padding:0;font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;background:transparent;-webkit-text-size-adjust:100%;}'
         '.holiday-table{width:100%;border-collapse:separate;border-spacing:0;border-radius:20px;overflow:hidden;}'
         '.holiday-table thead{background:#FF0000;}'
         '.holiday-table th{color:#FFF;padding:1rem 1.2rem;text-align:left;font-weight:600;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;}'
@@ -786,6 +953,12 @@ def main():
         '.wd-badge{display:inline-block;padding:0.2rem 0.7rem;border-radius:999px;font-size:0.8rem;font-weight:600;}'
         '.wd-badge.weekend{background:#F2F2F2;color:#888;}'
         '.wd-badge.workday{background:#E8F5E9;color:#2E7D32;}'
+        '@media(max-width:480px){'
+        '.holiday-table th{padding:0.6rem 0.5rem;font-size:0.7rem;}'
+        '.holiday-table td{padding:0.55rem 0.5rem;font-size:0.8rem;}'
+        '.holiday-table{border-radius:12px;}'
+        '.wd-badge{font-size:0.68rem;padding:0.15rem 0.5rem;}'
+        '}'
         '</style></head><body>'
         '<table class="holiday-table">'
         '<thead><tr><th>Feiertag</th><th>Datum</th><th>Wochentag</th></tr></thead>'
